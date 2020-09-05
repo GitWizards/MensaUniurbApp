@@ -122,8 +122,7 @@ class _ResultScreenState extends State<ResultScreen> {
     };
 
     // Make the url with the arguments from the previous screen
-    String url =
-        'http://51.158.173.57:9543/${args.kitchen}/${args.date}/${args.meal}';
+    String url = 'http://radeox.duckdns.org:9543/${args.kitchen}/${args.date}/${args.meal}';
 
     // Send the request
     Response response = await get(url);
