@@ -1,16 +1,15 @@
 import 'dart:ui';
 
-import 'package:MensaUniurb/resultScreen.dart';
+import 'myWidgets.dart';
+import 'resultScreen.dart';
+import 'themes.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import 'package:MensaUniurb/themes.dart';
-import 'package:MensaUniurb/myWidgets.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() async {
   // Lock app in portrait mode
@@ -18,61 +17,74 @@ void main() async {
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
   // Load selected theme
-  ThemeData theme = await Themes.load();
+  MyTheme theme = MyTheme();
+  theme.load();
 
   // Run app
-  runApp(MensaUniurb(theme: theme));
+  runApp(MensaUniurb(currentTheme: theme));
 }
 
-class MensaUniurb extends StatelessWidget {
-  MensaUniurb({this.theme});
-
+class MensaUniurb extends StatefulWidget {
   // Appbar title
   final String title = "Mensa Uniurb";
 
   // Theme to be set
-  final ThemeData theme;
+  final MyTheme currentTheme;
 
-  // Root of the application
+  MensaUniurb({required this.currentTheme});
+
+  @override
+  _MensaUniurbState createState() => _MensaUniurbState();
+}
+
+class _MensaUniurbState extends State<MensaUniurb> {
+  @override
+  void initState() {
+    super.initState();
+    widget.currentTheme.addListener(() {
+      print("Theme changed");
+      setState(() {});
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return DynamicTheme(
-      // Default theme
-      data: (brightness) => theme,
-      themedWidgetBuilder: (context, theme) {
-        return MaterialApp(
-          title: title,
-          theme: theme,
+    return MaterialApp(
+      title: widget.title,
+      theme: widget.currentTheme.current,
 
-          debugShowCheckedModeBanner: false,
+      debugShowCheckedModeBanner: false,
 
-          // Define application routes to various screens
-          initialRoute: '/',
-          routes: {
-            '/': (context) => SearchScreen(title: title),
-            '/results': (context) => ResultScreen(),
-          },
-
-          // Set locale stuff
-          localizationsDelegates: [
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-          ],
-
-          // Set italian as only locale
-          supportedLocales: [Locale('it', 'IT')],
-        );
+      // Define application routes to various screens
+      initialRoute: '/',
+      routes: {
+        '/': (context) => SearchScreen(
+              title: widget.title,
+              currentTheme: widget.currentTheme,
+            ),
+        '/results': (context) => ResultScreen(),
       },
+
+      // Set locale stuff
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+
+      // Set italian as only locale
+      supportedLocales: [Locale('it', 'IT')],
     );
   }
 }
 
 class SearchScreen extends StatefulWidget {
-  // Constructor of the screen
-  SearchScreen({Key key, this.title}) : super(key: key);
-
   // Title of the screen
   final String title;
+  final MyTheme currentTheme;
+
+  // Constructor of the screen
+  SearchScreen({Key? key, required this.title, required this.currentTheme})
+      : super(key: key);
 
   @override
   _SearchScreenState createState() => _SearchScreenState();
@@ -152,8 +164,8 @@ class _SearchScreenState extends State<SearchScreen> {
         icon: Icon(Icons.search),
         onPressed: () {
           // Translates values from buttons to prettier form
-          String kName = dict['$kitchen'];
-          String mName = dict['$meal'];
+          String? kName = dict['$kitchen'];
+          String? mName = dict['$meal'];
 
           // Navigate to ResultScreen when tapped
           Navigator.pushNamed(
@@ -185,15 +197,24 @@ class _SearchScreenState extends State<SearchScreen> {
               children: <Widget>[
                 IconButton(
                   icon: CircleAvatar(backgroundColor: Colors.blue),
-                  onPressed: () => applyTheme('blue'),
+                  onPressed: () => {
+                    widget.currentTheme.switchTheme('blue'),
+                    Navigator.pop(context),
+                  },
                 ),
                 IconButton(
                   icon: CircleAvatar(backgroundColor: Colors.green),
-                  onPressed: () => applyTheme('green'),
+                  onPressed: () => {
+                    widget.currentTheme.switchTheme('green'),
+                    Navigator.pop(context)
+                  },
                 ),
                 IconButton(
                   icon: CircleAvatar(backgroundColor: Colors.red),
-                  onPressed: () => applyTheme('red'),
+                  onPressed: () => {
+                    widget.currentTheme.switchTheme('red'),
+                    Navigator.pop(context),
+                  },
                 ),
               ],
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -219,30 +240,6 @@ class _SearchScreenState extends State<SearchScreen> {
         ),
       ),
     );
-  }
-
-  // Function to apply and save the selected theme
-  applyTheme(theme) {
-    // Check and update theme
-    setState(() {
-      switch (theme) {
-        case 'blue':
-          DynamicTheme.of(context).setThemeData(Themes.blue());
-          break;
-        case 'green':
-          DynamicTheme.of(context).setThemeData(Themes.green());
-          break;
-        case 'red':
-          DynamicTheme.of(context).setThemeData(Themes.red());
-          break;
-      }
-    });
-
-    // Save selected theme
-    Themes.save(theme);
-
-    // Close the drawer
-    Navigator.pop(context);
   }
 
   // Function called from child widgets to set the value
@@ -271,7 +268,7 @@ class _SearchScreenState extends State<SearchScreen> {
 class CircleAppBar extends CustomPainter {
   CircleAppBar({this.context});
 
-  final BuildContext context;
+  final BuildContext? context;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -279,7 +276,7 @@ class CircleAppBar extends CustomPainter {
     final paint = Paint();
 
     // Set the color based of accent
-    paint.color = Theme.of(context).accentColor;
+    paint.color = Theme.of(context!).accentColor;
 
     // Compute the center where the circle should be drawn
     Offset center = Offset(size.width * 0.5, 0);

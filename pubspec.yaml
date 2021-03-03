@@ -1,22 +1,21 @@
-name: MensaUniurb
-description: Check what's for launch from this beautiful app
+name: mensa_uniurb
+description: Check what's for lunch using this beautiful app
 
-version: 1.3.0+8
+version: 1.4.0+9
 
 environment:
-  sdk: ">=2.2.2 <3.0.0"
+  sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
   flutter:
     sdk: flutter
 
-  dynamic_theme: ^1.0.1
-  flutter_launcher_icons: ^0.7.3
-  font_awesome_flutter: ^8.5.0
-  http: ^0.12.0+2
-  intl: ">=0.15.2"
-  shared_preferences: ^0.5.3+4
-  url_launcher: ^5.1.4
+  flutter_launcher_icons: ^0.9.0
+  font_awesome_flutter: ^9.0.0-nullsafety
+  http: ^0.13.0
+  intl: ^0.17.0
+  shared_preferences: ^2.0.3
+  url_launcher: ^6.0.2
 
 
 dev_dependencies:

@@ -6,10 +6,10 @@ import 'package:intl/intl.dart';
 // date text and a dataPicker
 class DataPicker extends StatefulWidget {
   // Constructor
-  DataPicker({Key key, this.setFunc}) : super(key: key);
+  DataPicker({Key? key, this.setFunc}) : super(key: key);
 
   // The 'setFunc' is the function used to set a variable in the parent widget
-  final Function setFunc;
+  final Function? setFunc;
 
   @override
   _DataPickerState createState() => _DataPickerState();
@@ -23,7 +23,7 @@ class _DataPickerState extends State<DataPicker> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: RaisedButton(
+      child: ElevatedButton(
         child: Row(
           children: <Widget>[
             Container(
@@ -52,9 +52,10 @@ class _DataPickerState extends State<DataPicker> {
           ],
           mainAxisAlignment: MainAxisAlignment.center,
         ),
-        shape: StadiumBorder(),
-        color: Theme.of(context).accentColor,
-        disabledColor: Colors.grey,
+        style: ElevatedButton.styleFrom(
+          shape: StadiumBorder(),
+          primary: Theme.of(context).accentColor,
+        ),
         onPressed: () => _showDateTimePicker(context),
       ),
       width: MediaQuery.of(context).size.width * 0.85,
@@ -64,7 +65,7 @@ class _DataPickerState extends State<DataPicker> {
 
   // Shows the dataPicker to select a date
   _showDateTimePicker(BuildContext context) async {
-    DateTime selected;
+    DateTime? selected;
     DateTime today = DateTime.now();
     Duration week = Duration(days: 7);
 
@@ -80,7 +81,7 @@ class _DataPickerState extends State<DataPicker> {
     setState(() {
       if (selected != null) {
         date = DateFormat('dd/MM/yyyy').format(selected);
-        widget.setFunc(DateFormat('MM-dd-yyyy').format(selected));
+        widget.setFunc!(DateFormat('MM-dd-yyyy').format(selected));
       }
     });
   }
@@ -90,7 +91,7 @@ class _DataPickerState extends State<DataPicker> {
 class RadioButtons extends StatefulWidget {
   // The constructor requires the text and the value of the two buttons
   RadioButtons({
-    Key key,
+    Key? key,
     this.textButton1,
     this.valueButton1,
     this.textButton2,
@@ -99,15 +100,15 @@ class RadioButtons extends StatefulWidget {
   }) : super(key: key);
 
   // Texts of the buttons
-  final String textButton1;
-  final String textButton2;
+  final String? textButton1;
+  final String? textButton2;
 
   // Buttons values
-  final String valueButton1;
-  final String valueButton2;
+  final String? valueButton1;
+  final String? valueButton2;
 
   // The 'setFunc' is the function used to set a variable in the parent widget
-  final Function setFunc;
+  final Function? setFunc;
 
   @override
   _RadioButtonsState createState() => _RadioButtonsState();
@@ -116,7 +117,7 @@ class RadioButtons extends StatefulWidget {
 // Class that encapsulates two buttons as a pair of radio buttons
 class _RadioButtonsState extends State<RadioButtons> {
   // Ensure only one button is active at given time
-  bool selected = true;
+  bool selected = false;
 
   @override
   Widget build(BuildContext context) {
@@ -145,7 +146,7 @@ class _RadioButtonsState extends State<RadioButtons> {
     return Container(
       padding: EdgeInsets.only(left: 8, right: 8),
       child: Container(
-        child: RaisedButton(
+        child: ElevatedButton(
           child: Text(
             text,
             style: TextStyle(
@@ -160,12 +161,20 @@ class _RadioButtonsState extends State<RadioButtons> {
               ],
             ),
           ),
-          shape: StadiumBorder(),
-          color: Colors.grey,
-          disabledColor: Theme.of(context).accentColor,
+          style: ButtonStyle(
+            elevation: MaterialStateProperty.all(5),
+            shape: MaterialStateProperty.all<OutlinedBorder>(StadiumBorder()),
+            backgroundColor: MaterialStateProperty.resolveWith<Color>(
+              (Set<MaterialState> states) {
+                if (states.contains(MaterialState.disabled))
+                  return Theme.of(context).accentColor;
+                return Colors.grey; // Use the component's default.
+              },
+            ),
+          ),
 
           // Check if the buttons is active and take action
-          onPressed: active ? null : () => _changeActiveButton(),
+          onPressed: active ? () => _changeActiveButton() : null,
         ),
         width: MediaQuery.of(context).size.width * 0.4,
         height: MediaQuery.of(context).size.height * 0.08,
@@ -181,9 +190,9 @@ class _RadioButtonsState extends State<RadioButtons> {
 
       // Based on which button is active set a value
       if (selected)
-        widget.setFunc(widget.valueButton1);
+        widget.setFunc!(widget.valueButton2);
       else
-        widget.setFunc(widget.valueButton2);
+        widget.setFunc!(widget.valueButton1);
     });
   }
 }

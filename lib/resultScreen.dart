@@ -7,10 +7,10 @@ import 'package:http/http.dart';
 
 class ResultScreen extends StatefulWidget {
   // Constructor of the screen
-  ResultScreen({Key key, this.title}) : super(key: key);
+  ResultScreen({Key? key, this.title}) : super(key: key);
 
   // Title of the screen
-  final String title;
+  final String? title;
 
   @override
   _ResultScreenState createState() => _ResultScreenState();
@@ -21,24 +21,24 @@ class _ResultScreenState extends State<ResultScreen> {
   bool needData = true;
 
   // Arguments of the search
-  SearchArguments args;
+  SearchArguments? args;
 
   // Future list of widgets that will be made in the getList function
-  Future<List<Widget>> results;
+  Future<List<Widget>>? results;
 
   @override
   Widget build(BuildContext context) {
     if (needData) {
       // Extract arguments passed from the search screen
-      args = ModalRoute.of(context).settings.arguments;
-      results = getList(args);
+      args = ModalRoute.of(context)!.settings.arguments as SearchArguments?;
+      results = getList(args!);
 
       // Set flag to false
       needData = false;
     }
 
     return Scaffold(
-      appBar: AppBar(title: Text("${args.title}")),
+      appBar: AppBar(title: Text("${args!.title}")),
       body: FutureBuilder(
         future: results,
         builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
@@ -46,14 +46,14 @@ class _ResultScreenState extends State<ResultScreen> {
             // Display loading animation
             return Center(child: CircularProgressIndicator());
           } else {
-            List content = snapshot.data;
+            List content = snapshot.data!;
 
             // If some content exists
             if (content.isNotEmpty) {
               // Create and return the list
               return Column(
                 children: <Widget>[
-                  Expanded(child: ListView(children: content)),
+                  Expanded(child: ListView(children: content as List<Widget>)),
                 ],
               );
             } else {
@@ -91,10 +91,10 @@ class _ResultScreenState extends State<ResultScreen> {
 
   Future<List<Widget>> getList(SearchArguments args) async {
     // Result of the request to API
-    Map result = {};
+    Map? result = {};
 
     // Create an empty list
-    List<Widget> list = List();
+    List<Widget> list = [];
 
     Map names = {
       'first': "Primi",
@@ -122,10 +122,10 @@ class _ResultScreenState extends State<ResultScreen> {
     };
 
     // Make the url with the arguments from the previous screen
-    String url = 'http://radeox.duckdns.org:9543/${args.kitchen}/${args.date}/${args.meal}';
+    Uri uri = Uri.http('radeox.duckdns.org:9543', '${args.kitchen}/${args.date}/${args.meal}');
 
     // Send the request
-    Response response = await get(url);
+    Response response = await get(uri);
 
     // Try decoding results
     // If they are empty the result will not be a JSON
@@ -135,7 +135,7 @@ class _ResultScreenState extends State<ResultScreen> {
 
     // If no results (network/request error) or the
     //results are empty (closing day) then return the empty list
-    if ((result.isEmpty) || (result['menu']['first'].isEmpty)) return list;
+    if ((result!.isEmpty) || (result['menu']['first'].isEmpty)) return list;
 
     // Loop through keys of the json
     for (String type in result['menu'].keys) {
@@ -238,14 +238,14 @@ class SearchArguments {
   });
 
   // Kitchen name
-  final String title;
+  final String? title;
 
   // Kitchen name
-  final String kitchen;
+  final String? kitchen;
 
   // Date in MM-DD-YYYY format
-  final String date;
+  final String? date;
 
   // Meal (lunch or dinner)
-  final String meal;
+  final String? meal;
 }
