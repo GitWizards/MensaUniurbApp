@@ -3,27 +3,25 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class MyTheme with ChangeNotifier {
   ThemeData _currentTheme = _blue;
-
   ThemeData get current => _currentTheme;
 
-  void switchTheme(theme) {
+  void switchTheme(theme, {should_save = true}) {
     switch (theme) {
       case 'blue':
         _currentTheme = _blue;
         notifyListeners();
-        save('blue');
         break;
       case 'green':
         _currentTheme = _green;
         notifyListeners();
-        save('green');
         break;
       case 'red':
         _currentTheme = _red;
         notifyListeners();
-        save('red');
         break;
     }
+
+    if (should_save) save(theme);
   }
 
   // Save the theme to shared preferences
@@ -37,23 +35,13 @@ class MyTheme with ChangeNotifier {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? theme = prefs.getString('theme');
 
-    // If theme exists return it, otherwise return default theme
-    switch (theme) {
-      case 'blue':
-        _currentTheme = _blue;
-        break;
-
-      case 'green':
-        _currentTheme = _green;
-        break;
-
-      case 'red':
-        _currentTheme = _red;
-        break;
-
-      default:
-        _currentTheme = _blue;
-        break;
+    if (['blue', 'green', 'red'].contains(theme)) {
+      switchTheme(
+        theme,
+        should_save: false,
+      );
+    } else {
+      switchTheme('blue');
     }
   }
 }
