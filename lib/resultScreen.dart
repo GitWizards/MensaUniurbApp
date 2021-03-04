@@ -122,7 +122,10 @@ class _ResultScreenState extends State<ResultScreen> {
     };
 
     // Make the url with the arguments from the previous screen
-    Uri uri = Uri.http('radeox.duckdns.org:9543', '${args.kitchen}/${args.date}/${args.meal}');
+    Uri uri = Uri.http(
+      'radeox.duckdns.org:9543',
+      '${args.kitchen}/${args.date}/${args.meal}',
+    );
 
     // Send the request
     Response response = await get(uri);
@@ -143,11 +146,11 @@ class _ResultScreenState extends State<ResultScreen> {
 
       // Loop through each item and add them to list
       for (String item in result['menu'][type]) {
-        // Extract last part of the string
-        String infos = item.split(" ").removeLast();
+        String infos = item.replaceAll(RegExp(r'[A-z][^F|f0-9]'), '').trim();
+        item = item.replaceAll(RegExp(r'[-]?[F|f]?[0-9].?'), '').trim();
 
         // Check if it contains allergry infos
-        RegExp filter = RegExp('([1-9])');
+        RegExp filter = RegExp('([0-9])');
 
         if (filter.hasMatch(infos)) {
           // Remove info about allergens from the original string
@@ -172,7 +175,7 @@ class _ResultScreenState extends State<ResultScreen> {
                             ),
                           ),
                         ),
-                      )
+                      ),
                   }
                 else
                   {
@@ -181,22 +184,28 @@ class _ResultScreenState extends State<ResultScreen> {
                         ListTile(
                           title: Text("• " + allergensMap[info]),
                         ),
-                      )
+                      ),
                   }
               });
 
           // Add the new item
-          list.add(Card(
-            child: ExpansionTile(
-              title: Text('$item'),
-              children: infoList,
+          list.add(
+            Card(
+              child: ExpansionTile(
+                title: Text('$item'),
+                children: infoList,
+              ),
             ),
-          ));
+          );
         } else {
           // Otherwise add it without anything
-          list.add(Card(
-            child: ListTile(title: Text('$item')),
-          ));
+          list.add(
+            Card(
+              child: ListTile(
+                title: Text('$item'),
+              ),
+            ),
+          );
         }
       }
     }
