@@ -75,6 +75,7 @@ class _DataPickerState extends State<DataPicker> {
       initialDate: today,
       firstDate: today,
       lastDate: today.add(week),
+      locale: const Locale("it", "IT"),
     );
 
     // Update the state and call the 'setFunc'

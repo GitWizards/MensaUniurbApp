@@ -1,7 +1,7 @@
 name: mensa_uniurb
-description: Check what's for lunch using this beautiful app
+description: Check what's for lunch!
 
-version: 1.4.1+10
+version: 1.5.0+11
 
 environment:
   sdk: '>=2.12.0 <3.0.0'
@@ -10,19 +10,16 @@ dependencies:
   flutter:
     sdk: flutter
 
-  flutter_launcher_icons: ^0.9.0
-  font_awesome_flutter: ^9.0.0-nullsafety
-  http: ^0.13.0
-  intl: ^0.17.0
-  shared_preferences: ^2.0.3
-  url_launcher: ^6.0.2
+  flutter_localizations:
+    sdk: flutter
 
+  font_awesome_flutter: ^9.2.0
+  http: ^0.13.4
+  shared_preferences: ^2.0.8
+  url_launcher: ^6.0.12
 
 dev_dependencies:
   flutter_test:
-    sdk: flutter
-
-  flutter_localizations:
     sdk: flutter
 
 flutter:

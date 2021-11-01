@@ -1,8 +1,8 @@
 import 'dart:ui';
 
 import 'myWidgets.dart';
-import 'resultScreen.dart';
 import 'themes.dart';
+import 'resultScreen.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -42,7 +42,6 @@ class _MensaUniurbState extends State<MensaUniurb> {
   void initState() {
     super.initState();
     widget.currentTheme.addListener(() {
-      print("Theme changed");
       setState(() {});
     });
   }
@@ -53,8 +52,6 @@ class _MensaUniurbState extends State<MensaUniurb> {
       title: widget.title,
       theme: widget.currentTheme.current,
 
-      debugShowCheckedModeBanner: false,
-
       // Define application routes to various screens
       initialRoute: '/',
       routes: {
@@ -64,15 +61,13 @@ class _MensaUniurbState extends State<MensaUniurb> {
             ),
         '/results': (context) => ResultScreen(),
       },
-
-      // Set locale stuff
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
       ],
-
-      // Set italian as only locale
-      supportedLocales: [Locale('it', 'IT')],
+      supportedLocales: [
+        const Locale('en'),
+        const Locale('it'),
+      ],
     );
   }
 }
@@ -83,8 +78,11 @@ class SearchScreen extends StatefulWidget {
   final MyTheme currentTheme;
 
   // Constructor of the screen
-  SearchScreen({Key? key, required this.title, required this.currentTheme})
-      : super(key: key);
+  SearchScreen({
+    Key? key,
+    required this.title,
+    required this.currentTheme,
+  }) : super(key: key);
 
   @override
   _SearchScreenState createState() => _SearchScreenState();
@@ -98,7 +96,7 @@ class _SearchScreenState extends State<SearchScreen> {
   String meal = "lunch";
 
   // Translates values from buttons to prettier form
-  Map dict = {
+  Map prettyName = {
     'duca': "Duca",
     'tridente': "Tridente",
     'lunch': "Pranzo",
@@ -129,9 +127,9 @@ class _SearchScreenState extends State<SearchScreen> {
               padding: EdgeInsets.only(top: 12, bottom: 12),
               // Custom radio buttons
               child: RadioButtons(
-                textButton1: "Duca",
+                textButton1: prettyName["duca"],
                 valueButton1: "duca",
-                textButton2: "Tridente",
+                textButton2: prettyName["tridente"],
                 valueButton2: "tridente",
                 setFunc: _setKitchen,
               ),
@@ -140,9 +138,9 @@ class _SearchScreenState extends State<SearchScreen> {
             Container(
               padding: EdgeInsets.only(top: 12, bottom: 12),
               child: RadioButtons(
-                textButton1: "Pranzo",
+                textButton1: prettyName["lunch"],
                 valueButton1: "lunch",
-                textButton2: "Cena",
+                textButton2: prettyName["dinner"],
                 valueButton2: "dinner",
                 setFunc: _setMeal,
               ),
@@ -164,8 +162,8 @@ class _SearchScreenState extends State<SearchScreen> {
         icon: Icon(Icons.search),
         onPressed: () {
           // Translates values from buttons to prettier form
-          String? kName = dict['$kitchen'];
-          String? mName = dict['$meal'];
+          String? kName = prettyName['$kitchen'];
+          String? mName = prettyName['$meal'];
 
           // Navigate to ResultScreen when tapped
           Navigator.pushNamed(
