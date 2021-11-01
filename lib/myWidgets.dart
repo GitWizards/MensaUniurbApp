@@ -27,6 +27,12 @@ class _DataPickerState extends State<DataPicker> {
         child: Row(
           children: <Widget>[
             Container(
+              child: Icon(
+                Icons.date_range,
+                color: Colors.white,
+              ),
+            ),
+            Container(
               padding: EdgeInsets.all(7),
               child: Text(
                 date,
@@ -43,18 +49,12 @@ class _DataPickerState extends State<DataPicker> {
                 ),
               ),
             ),
-            Container(
-              child: Icon(
-                Icons.date_range,
-                color: Colors.white,
-              ),
-            ),
           ],
           mainAxisAlignment: MainAxisAlignment.center,
         ),
         style: ElevatedButton.styleFrom(
           shape: StadiumBorder(),
-          primary: Theme.of(context).accentColor,
+          primary: Theme.of(context).colorScheme.primary,
         ),
         onPressed: () => _showDateTimePicker(context),
       ),
@@ -168,7 +168,7 @@ class _RadioButtonsState extends State<RadioButtons> {
             backgroundColor: MaterialStateProperty.resolveWith<Color>(
               (Set<MaterialState> states) {
                 if (states.contains(MaterialState.disabled))
-                  return Theme.of(context).accentColor;
+                  return Theme.of(context).colorScheme.primary;
                 return Colors.grey; // Use the component's default.
               },
             ),

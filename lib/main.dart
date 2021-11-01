@@ -21,7 +21,7 @@ void main() async {
   theme.load();
 
   // Run app
-  runApp(MensaUniurb(currentTheme: theme));
+  runApp(MensaUniurb(theme: theme));
 }
 
 class MensaUniurb extends StatefulWidget {
@@ -29,9 +29,9 @@ class MensaUniurb extends StatefulWidget {
   final String title = "Mensa Uniurb";
 
   // Theme to be set
-  final MyTheme currentTheme;
+  final MyTheme theme;
 
-  MensaUniurb({required this.currentTheme});
+  MensaUniurb({required this.theme});
 
   @override
   _MensaUniurbState createState() => _MensaUniurbState();
@@ -41,7 +41,7 @@ class _MensaUniurbState extends State<MensaUniurb> {
   @override
   void initState() {
     super.initState();
-    widget.currentTheme.addListener(() {
+    widget.theme.addListener(() {
       setState(() {});
     });
   }
@@ -50,14 +50,14 @@ class _MensaUniurbState extends State<MensaUniurb> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: widget.title,
-      theme: widget.currentTheme.current,
+      theme: widget.theme.current,
 
       // Define application routes to various screens
       initialRoute: '/',
       routes: {
         '/': (context) => SearchScreen(
               title: widget.title,
-              currentTheme: widget.currentTheme,
+              theme: widget.theme,
             ),
         '/results': (context) => ResultScreen(),
       },
@@ -75,13 +75,13 @@ class _MensaUniurbState extends State<MensaUniurb> {
 class SearchScreen extends StatefulWidget {
   // Title of the screen
   final String title;
-  final MyTheme currentTheme;
+  final MyTheme theme;
 
   // Constructor of the screen
   SearchScreen({
     Key? key,
     required this.title,
-    required this.currentTheme,
+    required this.theme,
   }) : super(key: key);
 
   @override
@@ -160,17 +160,19 @@ class _SearchScreenState extends State<SearchScreen> {
       floatingActionButton: FloatingActionButton.extended(
         label: Text("Cerca"),
         icon: Icon(Icons.search),
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        foregroundColor: Colors.white,
         onPressed: () {
           // Translates values from buttons to prettier form
-          String? kName = prettyName['$kitchen'];
-          String? mName = prettyName['$meal'];
+          String? chosenKitchen = prettyName['$kitchen'];
+          String? chosenMeal = prettyName['$meal'];
 
           // Navigate to ResultScreen when tapped
           Navigator.pushNamed(
             context,
             '/results',
             arguments: SearchArguments(
-              title: "$kName - $mName",
+              title: "$chosenKitchen - $chosenMeal",
               kitchen: kitchen,
               date: date,
               meal: meal,
@@ -185,45 +187,10 @@ class _SearchScreenState extends State<SearchScreen> {
         color: Theme.of(context).backgroundColor,
         child: ListView(
           children: <Widget>[
-            ListTile(
-              leading: Icon(FontAwesomeIcons.palette),
-              title: Text('Tema', style: TextStyle(fontSize: 17)),
-            ),
-
-            // Themes selection
-            Row(
-              children: <Widget>[
-                IconButton(
-                  icon: CircleAvatar(backgroundColor: Colors.blue),
-                  onPressed: () => {
-                    widget.currentTheme.switchTheme('blue'),
-                    Navigator.pop(context),
-                  },
-                ),
-                IconButton(
-                  icon: CircleAvatar(backgroundColor: Colors.green),
-                  onPressed: () => {
-                    widget.currentTheme.switchTheme('green'),
-                    Navigator.pop(context)
-                  },
-                ),
-                IconButton(
-                  icon: CircleAvatar(backgroundColor: Colors.red),
-                  onPressed: () => {
-                    widget.currentTheme.switchTheme('red'),
-                    Navigator.pop(context),
-                  },
-                ),
-              ],
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            ),
-
-            Divider(),
-
             // Open github repo
             ListTile(
               leading: Icon(FontAwesomeIcons.github),
-              title: Text('Github', style: TextStyle(fontSize: 17)),
+              title: Text('GitHub', style: TextStyle(fontSize: 17)),
               onTap: () =>
                   _launchURL("https://github.com/FastRadeox/MensaUniurbBot"),
             ),
@@ -233,6 +200,16 @@ class _SearchScreenState extends State<SearchScreen> {
               leading: Icon(FontAwesomeIcons.telegramPlane),
               title: Text('Bot Telegram', style: TextStyle(fontSize: 17)),
               onTap: () => _launchURL("https://t.me/MensaUniurb_Bot"),
+            ),
+
+            // Switch between dark and light theme
+            ListTile(
+              leading: Icon(FontAwesomeIcons.lightbulb),
+              title: Text('Cambia tema', style: TextStyle(fontSize: 17)),
+              onTap: () => {
+                widget.theme.switchTheme(),
+                Navigator.pop(context),
+              },
             ),
           ],
         ),
@@ -264,9 +241,9 @@ class _SearchScreenState extends State<SearchScreen> {
 
 // Custom painter that creates the blue circle over the appBar
 class CircleAppBar extends CustomPainter {
-  CircleAppBar({this.context});
+  CircleAppBar({required this.context});
 
-  final BuildContext? context;
+  final BuildContext context;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -274,7 +251,7 @@ class CircleAppBar extends CustomPainter {
     final paint = Paint();
 
     // Set the color based of accent
-    paint.color = Theme.of(context!).accentColor;
+    paint.color = Theme.of(context).colorScheme.primary;
 
     // Compute the center where the circle should be drawn
     Offset center = Offset(size.width * 0.5, 0);
