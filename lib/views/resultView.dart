@@ -5,18 +5,18 @@ import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart';
 
-class ResultScreen extends StatefulWidget {
+class ResultView extends StatefulWidget {
   // Constructor of the screen
-  ResultScreen({Key? key, this.title}) : super(key: key);
+  ResultView({Key? key, this.title}) : super(key: key);
 
   // Title of the screen
   final String? title;
 
   @override
-  _ResultScreenState createState() => _ResultScreenState();
+  _ResultViewState createState() => _ResultViewState();
 }
 
-class _ResultScreenState extends State<ResultScreen> {
+class _ResultViewState extends State<ResultView> {
   // Flag to check if data has been already requested
   bool needData = true;
 
