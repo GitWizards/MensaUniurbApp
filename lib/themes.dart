@@ -42,6 +42,7 @@ class MyTheme with ChangeNotifier {
 ThemeData lightTheme = ThemeData(
   colorScheme: ColorScheme.light(
     primary: Colors.blue,
+    secondary: Colors.lightBlue,
   ),
   fontFamily: 'Noto',
 );
@@ -49,7 +50,8 @@ ThemeData lightTheme = ThemeData(
 // Dark-grey theme
 ThemeData darkTheme = ThemeData(
   colorScheme: ColorScheme.dark(
-    primary: Colors.blueGrey,
+    primary: Color(0xFF222222),
+    secondary: Colors.grey,
   ),
   fontFamily: 'Noto',
 );
