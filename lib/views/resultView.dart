@@ -240,21 +240,21 @@ class _ResultViewState extends State<ResultView> {
 class SearchArguments {
   // Constructor of the arguments
   SearchArguments({
-    this.title,
-    this.kitchen,
-    this.date,
-    this.meal,
+    required this.title,
+    required this.kitchen,
+    required this.date,
+    required this.meal,
   });
 
   // Kitchen name
-  final String? title;
+  final String title;
 
   // Kitchen name
-  final String? kitchen;
+  final String kitchen;
 
   // Date in MM-DD-YYYY format
-  final String? date;
+  final String date;
 
   // Meal (lunch or dinner)
-  final String? meal;
+  final String meal;
 }

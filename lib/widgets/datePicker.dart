@@ -1,4 +1,3 @@
-
 // Class that encapsulate a new button with a
 // date text and a dataPicker
 import 'package:flutter/material.dart';
@@ -40,13 +39,6 @@ class _DataPickerState extends State<DataPicker> {
                 style: TextStyle(
                   fontSize: MediaQuery.of(context).size.width * 0.07,
                   color: Colors.white,
-                  shadows: <Shadow>[
-                    Shadow(
-                      color: Colors.black54,
-                      offset: Offset(2.0, 2.0),
-                      blurRadius: 5.0,
-                    )
-                  ],
                 ),
               ),
             ),

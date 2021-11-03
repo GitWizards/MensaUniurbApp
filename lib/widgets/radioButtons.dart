@@ -1,94 +1,77 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-// Class that encapsulates two buttons as a pair of radio buttons
 class RadioButtons extends StatefulWidget {
-  // The constructor requires the text and the value of the two buttons
   RadioButtons({
     Key? key,
-    this.textButton1,
-    this.valueButton1,
-    this.textButton2,
-    this.valueButton2,
-    this.setFunc,
+    required this.text1,
+    required this.value1,
+    required this.text2,
+    required this.value2,
+    required this.callback,
   }) : super(key: key);
 
-  // Texts of the buttons
-  final String? textButton1;
-  final String? textButton2;
-
-  // Buttons values
-  final String? valueButton1;
-  final String? valueButton2;
-
-  // The 'setFunc' is the function used to set a variable in the parent widget
-  final Function? setFunc;
+  final String text1;
+  final String text2;
+  final String value1;
+  final String value2;
+  final Function callback;
 
   @override
   _RadioButtonsState createState() => _RadioButtonsState();
 }
 
-// Class that encapsulates two buttons as a pair of radio buttons
 class _RadioButtonsState extends State<RadioButtons> {
-  // Ensure only one button is active at given time
-  bool selected = false;
+  bool active = true;
 
   @override
   Widget build(BuildContext context) {
     return Row(
-      // Create the two buttons
       children: <Widget>[
-        _singleButton(
+        createRadioButton(
           context,
-          widget.textButton1,
-          widget.valueButton1,
-          selected,
+          widget.text1,
+          widget.value1,
+          active,
         ),
-        _singleButton(
+        createRadioButton(
           context,
-          widget.textButton2,
-          widget.valueButton2,
-          !selected,
+          widget.text2,
+          widget.value2,
+          !active,
         ),
       ],
       mainAxisAlignment: MainAxisAlignment.center,
     );
   }
 
-  // Generate a single button
-  Widget _singleButton(context, text, value, active) {
+  Widget createRadioButton(
+    BuildContext context,
+    String text,
+    String value,
+    bool state,
+  ) {
     return Container(
       padding: EdgeInsets.only(left: 8, right: 8),
       child: Container(
         child: ElevatedButton(
           child: Text(
             text,
-            style: TextStyle(
-              fontSize: MediaQuery.of(context).size.width * 0.07,
-              color: Colors.white,
-              shadows: <Shadow>[
-                Shadow(
-                  color: Colors.black54,
-                  offset: Offset(2.0, 2.0),
-                  blurRadius: 5.0,
-                )
-              ],
-            ),
+            style: buttonStyle(state),
           ),
           style: ButtonStyle(
-            elevation: MaterialStateProperty.all(5),
+            elevation: MaterialStateProperty.all(2),
             shape: MaterialStateProperty.all<OutlinedBorder>(StadiumBorder()),
             backgroundColor: MaterialStateProperty.resolveWith<Color>(
               (Set<MaterialState> states) {
-                if (states.contains(MaterialState.disabled))
+                if (state)
                   return Theme.of(context).colorScheme.primary;
-                return Colors.grey; // Use the component's default.
+                else
+                  return Colors.black54;
               },
             ),
           ),
-
-          // Check if the buttons is active and take action
-          onPressed: active ? () => _changeActiveButton() : null,
+          onPressed: () => state ? null : toogleButton(),
         ),
         width: MediaQuery.of(context).size.width * 0.4,
         height: MediaQuery.of(context).size.height * 0.08,
@@ -96,17 +79,24 @@ class _RadioButtonsState extends State<RadioButtons> {
     );
   }
 
-  // Change the active button and call the 'setFunc' from the parend widget
-  _changeActiveButton() {
+  void toogleButton() {
     setState(() {
-      // Change active button value
-      selected = !selected;
-
-      // Based on which button is active set a value
-      if (selected)
-        widget.setFunc!(widget.valueButton2);
-      else
-        widget.setFunc!(widget.valueButton1);
+      active = !active;
+      active ? widget.callback(widget.value1) : widget.callback(widget.value2);
     });
+  }
+
+  TextStyle buttonStyle(bool state) {
+    if (state) {
+      return TextStyle(
+        fontSize: MediaQuery.of(context).size.width * 0.07,
+        color: Colors.white,
+      );
+    } else {
+      return TextStyle(
+        fontSize: MediaQuery.of(context).size.width * 0.07,
+        color: Colors.grey,
+      );
+    }
   }
 }

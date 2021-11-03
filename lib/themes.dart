@@ -20,13 +20,11 @@ class MyTheme with ChangeNotifier {
     save(theme);
   }
 
-  // Save the theme to shared preferences
   save(theme) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('theme', theme);
   }
 
-  // Load the theme from shared preferences
   void load() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     if (prefs.getString('theme') == 'dark') {
