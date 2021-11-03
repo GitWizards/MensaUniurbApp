@@ -1,14 +1,11 @@
-
-
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:mensa_uniurb/themes.dart';
 import 'package:intl/intl.dart';
+import 'package:mensa_uniurb/themes.dart';
 import 'package:mensa_uniurb/views/resultView.dart';
 import 'package:mensa_uniurb/widgets/circleAppBar.dart';
 import 'package:mensa_uniurb/widgets/datePicker.dart';
+import 'package:mensa_uniurb/widgets/drawer.dart';
 import 'package:mensa_uniurb/widgets/radioButtons.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class SearchView extends StatefulWidget {
   final String title;
@@ -109,37 +106,9 @@ class _SearchViewState extends State<SearchView> {
       ),
 
       // Drawer
-      drawer: Container(
-        width: 250,
-        color: Theme.of(context).backgroundColor,
-        child: ListView(
-          children: <Widget>[
-            // Open github repo
-            ListTile(
-              leading: Icon(FontAwesomeIcons.github),
-              title: Text('GitHub', style: TextStyle(fontSize: 17)),
-              onTap: () =>
-                  _launchURL("https://github.com/FastRadeox/MensaUniurbBot"),
-            ),
-
-            // Open telegram bot page
-            ListTile(
-              leading: Icon(FontAwesomeIcons.telegramPlane),
-              title: Text('Bot Telegram', style: TextStyle(fontSize: 17)),
-              onTap: () => _launchURL("https://t.me/MensaUniurb_Bot"),
-            ),
-
-            // Switch between dark and light theme
-            ListTile(
-              leading: Icon(FontAwesomeIcons.lightbulb),
-              title: Text('Cambia tema', style: TextStyle(fontSize: 17)),
-              onTap: () => {
-                widget.theme.switchTheme(),
-                Navigator.pop(context),
-              },
-            ),
-          ],
-        ),
+      drawer: getDrawer(
+        context,
+        widget.theme,
       ),
     );
   }
@@ -148,14 +117,4 @@ class _SearchViewState extends State<SearchView> {
   _kitchenCallback(value) => kitchen = value;
   _dateCallback(value) => date = value;
   _mealCallback(value) => meal = value;
-
-  _launchURL(url) async {
-    if (await canLaunch(url))
-      await launch(url);
-    else
-      throw 'Could not launch $url';
-
-    // Close the drawer
-    Navigator.pop(context);
-  }
 }

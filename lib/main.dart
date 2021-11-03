@@ -1,13 +1,12 @@
 import 'dart:ui';
 
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:mensa_uniurb/views/resultView.dart';
 import 'package:mensa_uniurb/views/searchView.dart';
 
 import 'themes.dart';
-
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() async {
   // Lock app in portrait mode
