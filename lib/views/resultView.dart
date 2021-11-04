@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+// import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mensa_uniurb/services/api.dart';
 import 'package:mensa_uniurb/utils/apiQuery.dart';
 import 'package:mensa_uniurb/utils/humanNames.dart';
+import 'package:mensa_uniurb/widgets/mealTile.dart';
 
 class ResultView extends StatefulWidget {
   ResultView({Key? key}) : super(key: key);
@@ -15,7 +18,7 @@ class _ResultViewState extends State<ResultView> {
   @override
   Widget build(BuildContext context) {
     ApiQuery query = ModalRoute.of(context)!.settings.arguments as ApiQuery;
-    Future<List<Widget>> results = getList(query);
+    Future<Map> results = getList(query);
 
     return Scaffold(
       appBar: AppBar(
@@ -25,18 +28,23 @@ class _ResultViewState extends State<ResultView> {
       ),
       body: FutureBuilder(
         future: results,
-        builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
+        builder: (BuildContext context, AsyncSnapshot<Map> snapshot) {
           if (!snapshot.hasData) {
             // Display loading animation
             return Center(child: CircularProgressIndicator());
           } else {
-            List contentList = snapshot.data!;
+            Map data = snapshot.data as Map;
 
-            if (contentList.isNotEmpty) {
+            if (data.isNotEmpty) {
               return Column(
                 children: <Widget>[
                   Expanded(
-                    child: ListView(children: contentList as List<Widget>),
+                    child: ListView(children: [
+                      getMealTile(context, "Primo", data['menu']['first'], Icon(FontAwesomeIcons.pizzaSlice)),
+                      getMealTile(context, "Secondo", data['menu']['second'], Icon(FontAwesomeIcons.hamburger)),
+                      getMealTile(context, "Contorno", data['menu']['side'], Icon(FontAwesomeIcons.cheese)),
+                      getMealTile(context, "Frutta/Dolce", data['menu']['fruit'], Icon(FontAwesomeIcons.iceCream)),
+                    ]),
                   ),
                 ],
               );
