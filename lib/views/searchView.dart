@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mensa_uniurb/themes.dart';
-import 'package:mensa_uniurb/views/resultView.dart';
+import 'package:mensa_uniurb/utils/apiQuery.dart';
+import 'package:mensa_uniurb/utils/humanNames.dart';
 import 'package:mensa_uniurb/widgets/circleAppBar.dart';
 import 'package:mensa_uniurb/widgets/datePicker.dart';
 import 'package:mensa_uniurb/widgets/drawer.dart';
@@ -22,17 +23,11 @@ class SearchView extends StatefulWidget {
 }
 
 class _SearchViewState extends State<SearchView> {
-  String kitchen = "duca";
-  String date = DateFormat('MM-dd-yyyy').format(DateTime.now());
-  String meal = "lunch";
-
-  // Translates values from buttons to prettier form
-  Map prettyName = {
-    'duca': "Duca",
-    'tridente': "Tridente",
-    'lunch': "Pranzo",
-    'dinner': "Cena",
-  };
+  ApiQuery query = ApiQuery(
+    kitchen: "duca",
+    date: DateFormat('MM-dd-yyyy').format(DateTime.now()),
+    meal: "lunch",
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -54,9 +49,9 @@ class _SearchViewState extends State<SearchView> {
             Container(
               padding: EdgeInsets.only(top: 12, bottom: 12),
               child: RadioButtons(
-                text1: prettyName["duca"],
+                text1: humanNamesMap["duca"],
                 value1: "duca",
-                text2: prettyName["tridente"],
+                text2: humanNamesMap["tridente"],
                 value2: "tridente",
                 callback: _kitchenCallback,
               ),
@@ -64,9 +59,9 @@ class _SearchViewState extends State<SearchView> {
             Container(
               padding: EdgeInsets.only(top: 12, bottom: 12),
               child: RadioButtons(
-                text1: prettyName["lunch"],
+                text1: humanNamesMap["lunch"],
                 value1: "lunch",
-                text2: prettyName["dinner"],
+                text2: humanNamesMap["dinner"],
                 value2: "dinner",
                 callback: _mealCallback,
               ),
@@ -88,19 +83,10 @@ class _SearchViewState extends State<SearchView> {
         backgroundColor: Theme.of(context).colorScheme.primary,
         foregroundColor: Colors.white,
         onPressed: () {
-          String? chosenKitchen = prettyName['$kitchen'];
-          String? chosenMeal = prettyName['$meal'];
-
-          // Navigate to ResultScreen when tapped
           Navigator.pushNamed(
             context,
             '/results',
-            arguments: SearchArguments(
-              title: "$chosenKitchen - $chosenMeal",
-              kitchen: kitchen,
-              date: date,
-              meal: meal,
-            ),
+            arguments: query,
           );
         },
       ),
@@ -114,7 +100,7 @@ class _SearchViewState extends State<SearchView> {
   }
 
   // Callbacks for child widgets
-  _kitchenCallback(value) => kitchen = value;
-  _dateCallback(value) => date = value;
-  _mealCallback(value) => meal = value;
+  _kitchenCallback(value) => query.kitchen = value;
+  _dateCallback(value) => query.date = value;
+  _mealCallback(value) => query.meal = value;
 }
