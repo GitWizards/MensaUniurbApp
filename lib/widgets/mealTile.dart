@@ -16,36 +16,38 @@ Widget getMealTile(
       children: children.map((child) {
         return ListTile(
           title: Text("• " + removeIngredients(child)),
-          trailing: IconButton(
-            icon: Icon(
-              FontAwesomeIcons.infoCircle,
-              size: 15,
-              color: Colors.grey,
-            ),
-            onPressed: () {
-              showDialog<void>(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: const Text('Lista allergeni'),
-                    content: SingleChildScrollView(
-                      child: ListBody(
-                        children: parseIngredients(child),
-                      ),
-                    ),
-                    actions: <Widget>[
-                      TextButton(
-                        child: const Text('OK'),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                    ],
-                  );
-                },
-              );
-            },
-          ),
+          trailing: parseIngredients(child).isNotEmpty
+              ? IconButton(
+                  icon: Icon(
+                    FontAwesomeIcons.infoCircle,
+                    size: 15,
+                    color: Colors.grey,
+                  ),
+                  onPressed: () {
+                    showDialog<void>(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text('Lista allergeni'),
+                          content: SingleChildScrollView(
+                            child: ListBody(
+                              children: parseIngredients(child),
+                            ),
+                          ),
+                          actions: <Widget>[
+                            TextButton(
+                              child: const Text('OK'),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                )
+              : null,
         );
       }).toList());
 }
