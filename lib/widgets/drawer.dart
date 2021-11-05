@@ -13,9 +13,10 @@ Container getDrawer(BuildContext context, MyTheme theme) {
         ListTile(
           leading: Icon(FontAwesomeIcons.github),
           title: Text('GitHub', style: TextStyle(fontSize: 17)),
+          subtitle: Text('Only for nerds'),
           onTap: () => _launchURL(
             context,
-            "https://github.com/FastRadeox/MensaUniurbBot",
+            "https://github.com/FastRadeox/MensaUniurbApp",
           ),
         ),
 
@@ -23,9 +24,21 @@ Container getDrawer(BuildContext context, MyTheme theme) {
         ListTile(
           leading: Icon(FontAwesomeIcons.telegramPlane),
           title: Text('Bot Telegram', style: TextStyle(fontSize: 17)),
+          subtitle: Text('The old ways'),
           onTap: () => _launchURL(
             context,
             "https://t.me/MensaUniurb_Bot",
+          ),
+        ),
+
+        // Open telegram bot page
+        ListTile(
+          leading: Icon(FontAwesomeIcons.peopleCarry),
+          title: Text('Contattaci', style: TextStyle(fontSize: 17)),
+          subtitle: Text('Segnala problemi'),
+          onTap: () => _launchURL(
+            context,
+            "https://t.me/Radeox",
           ),
         ),
 
@@ -33,6 +46,7 @@ Container getDrawer(BuildContext context, MyTheme theme) {
         ListTile(
           leading: Icon(FontAwesomeIcons.lightbulb),
           title: Text('Cambia tema', style: TextStyle(fontSize: 17)),
+          subtitle: Text('Join the Dark side'),
           onTap: () => {
             theme.switchTheme(),
             Navigator.pop(context),
