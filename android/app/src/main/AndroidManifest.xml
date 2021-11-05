@@ -22,7 +22,6 @@
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-
             <!-- Specify that the launch screen should continue being displayed -->
             <!-- until Flutter renders its first frame. -->
             <meta-data
@@ -36,4 +35,11 @@
         </activity>
     </application>
     <uses-permission android:name="android.permission.INTERNET"/> 
+    <queries>
+      <intent>
+        <action android:name="android.intent.action.VIEW" />
+          <category android:name="android.intent.category.BROWSABLE" />
+        <data android:scheme="https" />
+      </intent>
+    </queries>
 </manifest>
