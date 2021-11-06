@@ -22,11 +22,6 @@
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-            <!-- Specify that the launch screen should continue being displayed -->
-            <!-- until Flutter renders its first frame. -->
-            <meta-data
-                android:name="io.flutter.embedding.android.SplashScreenDrawable"
-                android:resource="@drawable/launch_background" />
 
             <!-- Theme to apply as soon as Flutter begins rendering frames -->
             <meta-data
