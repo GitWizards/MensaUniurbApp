@@ -1,7 +1,6 @@
 // Class that encapsulate a new button with a
 // date text and a dataPicker
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
 class DataPicker extends StatefulWidget {
