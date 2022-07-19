@@ -6,8 +6,8 @@ Widget getMealTile(
     BuildContext context, String title, List children, Icon icon) {
   return ExpansionTile(
       initiallyExpanded: true,
-      iconColor: Theme.of(context).colorScheme.primaryVariant,
-      textColor: Theme.of(context).colorScheme.primaryVariant,
+      iconColor: Theme.of(context).colorScheme.primary,
+      textColor: Theme.of(context).colorScheme.primary,
       leading: icon,
       title: Text(
         title,
@@ -19,7 +19,7 @@ Widget getMealTile(
           trailing: parseIngredients(child).isNotEmpty
               ? IconButton(
                   icon: Icon(
-                    FontAwesomeIcons.infoCircle,
+                    FontAwesomeIcons.circleInfo,
                     size: 15,
                     color: Colors.grey,
                   ),

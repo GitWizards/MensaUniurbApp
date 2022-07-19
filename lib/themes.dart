@@ -41,7 +41,6 @@ ThemeData lightTheme = ThemeData(
   colorScheme: ColorScheme.light(
     primary: Colors.blue,
     secondary: Colors.lightBlue,
-    primaryVariant: Colors.blue,
   ),
   fontFamily: 'Noto',
 );
@@ -51,7 +50,6 @@ ThemeData darkTheme = ThemeData(
   colorScheme: ColorScheme.dark(
     primary: const Color(0xFF222222),
     secondary: Colors.white,
-    primaryVariant: Colors.white,
   ),
   fontFamily: 'Noto',
 );

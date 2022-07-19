@@ -16,29 +16,29 @@ Container getDrawer(BuildContext context, MyTheme theme) {
           subtitle: Text('Only for nerds'),
           onTap: () => openUrl(
             context,
-            "https://github.com/FastRadeox/MensaUniurbApp",
+            Uri.parse("https://github.com/FastRadeox/MensaUniurbApp"),
           ),
         ),
 
         // Open telegram bot page
         ListTile(
-          leading: Icon(FontAwesomeIcons.telegramPlane),
+          leading: Icon(FontAwesomeIcons.telegram),
           title: Text('Bot Telegram', style: TextStyle(fontSize: 17)),
           subtitle: Text('The old ways'),
           onTap: () => openUrl(
             context,
-            "https://t.me/MensaUniurb_Bot",
+            Uri.parse("https://t.me/MensaUniurb_Bot"),
           ),
         ),
 
         // Open telegram bot page
         ListTile(
-          leading: Icon(FontAwesomeIcons.peopleCarry),
+          leading: Icon(FontAwesomeIcons.peopleCarryBox),
           title: Text('Contattaci', style: TextStyle(fontSize: 17)),
           subtitle: Text('Segnala problemi'),
           onTap: () => openUrl(
             context,
-            "https://t.me/Radeox",
+            Uri.parse("https://t.me/Radeox"),
           ),
         ),
 

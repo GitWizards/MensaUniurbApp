@@ -39,7 +39,7 @@ class _ResultViewState extends State<ResultView> {
                   Expanded(
                     child: ListView(children: [
                       getMealTile(context, "Primo", data['menu']['first'], Icon(FontAwesomeIcons.pizzaSlice)),
-                      getMealTile(context, "Secondo", data['menu']['second'], Icon(FontAwesomeIcons.hamburger)),
+                      getMealTile(context, "Secondo", data['menu']['second'], Icon(FontAwesomeIcons.burger)),
                       getMealTile(context, "Contorno", data['menu']['side'], Icon(FontAwesomeIcons.cheese)),
                       getMealTile(context, "Frutta/Dolce", data['menu']['fruit'], Icon(FontAwesomeIcons.iceCream)),
                     ]),

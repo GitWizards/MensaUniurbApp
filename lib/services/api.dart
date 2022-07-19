@@ -3,7 +3,7 @@ import 'package:http/http.dart';
 import 'package:mensa_uniurb/utils/apiQuery.dart';
 
 Future<Map> getList(ApiQuery args) async {
-  const String BackendUrl = 'radeox.duckdns.org:9543';
+  const String BackendUrl = 'stardusty.duckdns.org:9543';
   Map data = {};
 
   Uri uri = Uri.http(
