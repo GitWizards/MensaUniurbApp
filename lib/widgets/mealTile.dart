@@ -7,13 +7,24 @@ Widget getMealTile(
       initiallyExpanded: true,
       iconColor: Theme.of(context).colorScheme.secondary,
       textColor: Theme.of(context).colorScheme.secondary,
+      backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.6),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
       leading: icon,
       title: Text(
         title,
         style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
       ),
       children: children.map((child) {
-        return ListTile(title: Text("• " + child));
+        return ListTile(
+          title: Text(
+            "• " + child,
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.secondary,
+            ),
+          ),
+        );
       }).toList());
 }
 

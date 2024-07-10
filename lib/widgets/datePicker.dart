@@ -36,7 +36,7 @@ class _DataPickerState extends State<DataPicker> {
               child: Text(
                 date,
                 style: TextStyle(
-                  fontSize: MediaQuery.of(context).size.width * 0.07,
+                  fontSize: MediaQuery.of(context).size.width * 0.06,
                   color: Colors.white,
                 ),
               ),
@@ -46,12 +46,12 @@ class _DataPickerState extends State<DataPicker> {
         ),
         style: ElevatedButton.styleFrom(
           shape: StadiumBorder(),
-          primary: Theme.of(context).colorScheme.primary,
+          backgroundColor: Theme.of(context).colorScheme.primary,
         ),
         onPressed: () => _showDateTimePicker(context),
       ),
       width: MediaQuery.of(context).size.width * 0.85,
-      height: MediaQuery.of(context).size.height * 0.09,
+      height: MediaQuery.of(context).size.height * 0.075,
     );
   }
 

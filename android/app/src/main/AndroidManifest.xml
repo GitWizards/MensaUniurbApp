@@ -1,6 +1,4 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.radeox.mensa_uniurb">
-
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
         android:label="Mensa Uniurb"
         android:name="${applicationName}"

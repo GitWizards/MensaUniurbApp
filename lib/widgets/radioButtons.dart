@@ -59,18 +59,22 @@ class _RadioButtonsState extends State<RadioButtons> {
             style: buttonStyle(state),
           ),
           style: ButtonStyle(
-            elevation: MaterialStateProperty.all(2),
-            shape: MaterialStateProperty.all<OutlinedBorder>(StadiumBorder()),
-            backgroundColor: MaterialStateProperty.resolveWith<Color>(
-              (Set<MaterialState> states) {
-                if (state)
+            elevation: WidgetStateProperty.all(2),
+            shape: WidgetStateProperty.all<OutlinedBorder>(StadiumBorder()),
+            backgroundColor: WidgetStateProperty.resolveWith<Color>(
+              (Set<WidgetState> states) {
+                if (state) {
                   return Theme.of(context).colorScheme.primary;
-                else
-                  return Colors.black54;
+                } else {
+                  return Theme.of(context)
+                      .colorScheme
+                      .primary
+                      .withOpacity(0.15);
+                }
               },
             ),
           ),
-          onPressed: () => state ? null : toogleButton(),
+          onPressed: () => state ? null : toggleButton(),
         ),
         width: MediaQuery.of(context).size.width * 0.4,
         height: MediaQuery.of(context).size.height * 0.08,
@@ -78,7 +82,7 @@ class _RadioButtonsState extends State<RadioButtons> {
     );
   }
 
-  void toogleButton() {
+  void toggleButton() {
     setState(() {
       active = !active;
       active ? widget.callback(widget.value1) : widget.callback(widget.value2);
@@ -89,12 +93,12 @@ class _RadioButtonsState extends State<RadioButtons> {
     if (state) {
       return TextStyle(
         fontSize: MediaQuery.of(context).size.width * 0.07,
-        color: Colors.white,
+        color: Theme.of(context).colorScheme.secondary,
       );
     } else {
       return TextStyle(
         fontSize: MediaQuery.of(context).size.width * 0.07,
-        color: Colors.grey,
+        color: Theme.of(context).colorScheme.tertiary,
       );
     }
   }

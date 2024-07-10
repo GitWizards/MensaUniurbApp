@@ -33,7 +33,16 @@ class _SearchViewState extends State<SearchView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title, style: TextStyle(fontSize: 24)),
+        title: Text(
+          widget.title,
+          style: TextStyle(
+            fontSize: 24,
+            color: Theme.of(context).colorScheme.secondary,
+          ),
+        ),
+        iconTheme: IconThemeData(
+          color: Theme.of(context).colorScheme.secondary,
+        ),
         centerTitle: true,
         flexibleSpace: CustomPaint(
           painter: CircleAppBar(context: context),
@@ -46,6 +55,13 @@ class _SearchViewState extends State<SearchView> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            // Custom data picker
+            Container(
+              padding: EdgeInsets.only(top: 12, bottom: 12),
+              child: DataPicker(
+                setFunc: _dateCallback,
+              ),
+            ),
             Container(
               padding: EdgeInsets.only(top: 12, bottom: 12),
               child: RadioButtons(
@@ -64,13 +80,6 @@ class _SearchViewState extends State<SearchView> {
                 text2: humanNamesMap["dinner"],
                 value2: "dinner",
                 callback: _mealCallback,
-              ),
-            ),
-            // Custom data picker
-            Container(
-              padding: EdgeInsets.only(top: 12, bottom: 12),
-              child: DataPicker(
-                setFunc: _dateCallback,
               ),
             ),
           ],

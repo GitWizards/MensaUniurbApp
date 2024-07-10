@@ -34,17 +34,44 @@ class _ResultViewState extends State<ResultView> {
             Map data = snapshot.data as Map;
 
             if (data.isNotEmpty) {
-              return Column(
-                children: <Widget>[
-                  Expanded(
-                    child: ListView(children: [
-                      getMealTile(context, "Primo", data['menu']['first'], Icon(FontAwesomeIcons.pizzaSlice)),
-                      getMealTile(context, "Secondo", data['menu']['second'], Icon(FontAwesomeIcons.burger)),
-                      getMealTile(context, "Contorno", data['menu']['side'], Icon(FontAwesomeIcons.cheese)),
-                      getMealTile(context, "Frutta/Dolce", data['menu']['fruit'], Icon(FontAwesomeIcons.iceCream)),
-                    ]),
-                  ),
-                ],
+              return Container(
+                margin: EdgeInsets.all(8),
+                child: Column(
+                  children: <Widget>[
+                    Expanded(
+                      child: ListView(children: [
+                        getMealTile(
+                          context,
+                          "Primo",
+                          data['menu']['first'],
+                          Icon(FontAwesomeIcons.pizzaSlice),
+                        ),
+                        SizedBox(height: 14),
+                        getMealTile(
+                          context,
+                          "Secondo",
+                          data['menu']['second'],
+                          Icon(FontAwesomeIcons.burger),
+                        ),
+                        SizedBox(height: 14),
+                        getMealTile(
+                          context,
+                          "Contorno",
+                          data['menu']['side'],
+                          Icon(FontAwesomeIcons.cheese),
+                        ),
+                        SizedBox(height: 14),
+                        getMealTile(
+                          context,
+                          "Frutta/Dolce",
+                          data['menu']['fruit'],
+                          Icon(FontAwesomeIcons.iceCream),
+                        ),
+                        SizedBox(height: 14),
+                      ]),
+                    ),
+                  ],
+                ),
               );
             } else {
               // If the result is empty display alert
@@ -65,7 +92,7 @@ class _ResultViewState extends State<ResultView> {
                         right: 40,
                       ),
                       child: Text(
-                        "Sembra che la mensa sia chiusa.",
+                        "Sembra che la mensa sia chiusa!",
                         style: TextStyle(fontSize: 20),
                       ),
                     ),

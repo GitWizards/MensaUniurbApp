@@ -6,7 +6,7 @@ import 'package:mensa_uniurb/utils/browser.dart';
 Container getDrawer(BuildContext context, MyTheme theme) {
   return Container(
     width: 250,
-    color: Theme.of(context).backgroundColor,
+    color: Theme.of(context).cardColor,
     child: ListView(
       children: <Widget>[
         // Open github repo
@@ -24,7 +24,7 @@ Container getDrawer(BuildContext context, MyTheme theme) {
         ListTile(
           leading: Icon(FontAwesomeIcons.telegram),
           title: Text('Bot Telegram', style: TextStyle(fontSize: 17)),
-          subtitle: Text('The old ways'),
+          subtitle: Text('The classic'),
           onTap: () => openUrl(
             context,
             Uri.parse("https://t.me/MensaUniurb_Bot"),
@@ -34,7 +34,7 @@ Container getDrawer(BuildContext context, MyTheme theme) {
         // Open telegram bot page
         ListTile(
           leading: Icon(FontAwesomeIcons.peopleCarryBox),
-          title: Text('Contattaci', style: TextStyle(fontSize: 17)),
+          title: Text('Get in touch', style: TextStyle(fontSize: 17)),
           subtitle: Text('Segnala problemi'),
           onTap: () => openUrl(
             context,
