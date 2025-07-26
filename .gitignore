@@ -2,7 +2,7 @@
 google-services.json
 config.dart
 key.properties
-keystore/
+mensa-key.jks
 
 flutter_export_environment.sh
 .flutter-plugins

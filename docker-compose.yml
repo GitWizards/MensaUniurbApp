@@ -1,0 +1,16 @@
+services:
+  flutter-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: herolapse-flutter
+    working_dir: /app
+    volumes:
+      - .:/app
+      - /dev/bus/usb:/dev/bus/usb
+    environment:
+      - DISPLAY=${DISPLAY}
+    devices:
+      - /dev/bus/usb:/dev/bus/usb
+    privileged: true
+    network_mode: host

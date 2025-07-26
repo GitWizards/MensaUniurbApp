@@ -1,10 +1,10 @@
 name: mensa_uniurb
 description: Check what's for lunch!
 
-version: 1.8.0+15
+version: 1.9.0+16
 
 environment:
-  sdk: "^3.4.3"
+  sdk: ^3.8.1
 
 dependencies:
   flutter:
