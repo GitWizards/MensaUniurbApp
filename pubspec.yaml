@@ -1,7 +1,7 @@
 name: mensa_uniurb
 description: Check what's for lunch!
 
-version: 1.9.0+16
+version: 2.0.0+15
 
 environment:
   sdk: ^3.8.1
