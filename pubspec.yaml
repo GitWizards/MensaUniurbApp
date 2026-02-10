@@ -24,6 +24,9 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - img/
+    - assets/icon/icon.png
 
   fonts:
     - family: Noto

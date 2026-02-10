@@ -9,6 +9,16 @@ Container getDrawer(BuildContext context, MyTheme theme) {
     color: Theme.of(context).cardColor,
     child: ListView(
       children: <Widget>[
+        Container(
+          padding: EdgeInsets.only(top: 10, bottom: 20),
+          child: Center(
+            child: Image.asset(
+              'img/logo.png',
+              height: 120,
+            ),
+          ),
+        ),
+
         // Open github repo
         ListTile(
           leading: Icon(FontAwesomeIcons.github),
@@ -28,17 +38,6 @@ Container getDrawer(BuildContext context, MyTheme theme) {
           onTap: () => openUrl(
             context,
             Uri.parse("https://t.me/MensaUniurb_Bot"),
-          ),
-        ),
-
-        // Open telegram bot page
-        ListTile(
-          leading: Icon(FontAwesomeIcons.peopleCarryBox),
-          title: Text('Get in touch', style: TextStyle(fontSize: 17)),
-          subtitle: Text('Segnala problemi'),
-          onTap: () => openUrl(
-            context,
-            Uri.parse("https://t.me/Radeox"),
           ),
         ),
 
