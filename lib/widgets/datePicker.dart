@@ -29,6 +29,7 @@ class _DataPickerState extends State<DataPicker> {
               child: Icon(
                 Icons.date_range,
                 color: Colors.white,
+                size: 30,
               ),
             ),
             Container(

@@ -42,6 +42,18 @@ Container getDrawer(BuildContext context, MyTheme theme) {
           ),
         ),
 
+        // Switch between dark and light theme
+        ListTile(
+          leading: Icon(FontAwesomeIcons.lightbulb),
+          title: Text('Cambia tema', style: TextStyle(fontSize: 17)),
+          subtitle: Text('Join the Dark side'),
+          onTap: () => {
+            theme.switchTheme(),
+            Navigator.pop(context),
+          },
+        ),
+
+        // Info button
         ListTile(
           leading: Icon(FontAwesomeIcons.question),
           title: Text('Info', style: TextStyle(fontSize: 17)),
@@ -57,14 +69,11 @@ Container getDrawer(BuildContext context, MyTheme theme) {
                     child: ListBody(
                       children: [
                         Text(
-                          "I risultati non dipendono da noi ma sono inseriti dai dipendenti ERDIS.",
+                          "I risultati mostrati sono inseriti direttamente dal personale ERDIS e non dipendono dallo sviluppo di questa app.",
                         ),
+                        SizedBox(height: 10),
                         Text(
-                          "Questa applicazione è fatta da studenti e non è collegata in alcun modo ad Uniurb o ERDIS.",
-                        ),
-                        Text("------------------------------"),
-                        Text(
-                          "Se vuoi aiutarci a sostenere il progetto puoi fare una donazione seguendo le istruzioni nel bot usando /dona.",
+                          "Questa applicazione è un progetto studentesco indipendente e non è affiliata in alcun modo con l'Università di Urbino (Uniurb) o con l'Ente Regionale per il Diritto allo Studio (ERDIS).",
                         ),
                       ],
                     ),
@@ -80,17 +89,6 @@ Container getDrawer(BuildContext context, MyTheme theme) {
                 );
               },
             ),
-          },
-        ),
-
-        // Switch between dark and light theme
-        ListTile(
-          leading: Icon(FontAwesomeIcons.lightbulb),
-          title: Text('Cambia tema', style: TextStyle(fontSize: 17)),
-          subtitle: Text('Join the Dark side'),
-          onTap: () => {
-            theme.switchTheme(),
-            Navigator.pop(context),
           },
         ),
       ],

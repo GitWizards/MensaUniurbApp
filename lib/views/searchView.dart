@@ -86,18 +86,37 @@ class _SearchViewState extends State<SearchView> {
         ),
       ),
 
-      floatingActionButton: FloatingActionButton.extended(
-        label: Text("Cerca"),
-        icon: Icon(Icons.search),
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        foregroundColor: Colors.white,
-        onPressed: () {
-          Navigator.pushNamed(
-            context,
-            '/results',
-            arguments: query,
-          );
-        },
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 40),
+        child: SizedBox(
+          width: double.infinity,
+          height: 60,
+          child: ElevatedButton.icon(
+            icon: Icon(Icons.search, size: 28),
+            label: Text(
+              "Cerca",
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Theme.of(context).colorScheme.primary,
+              foregroundColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+              elevation: 4,
+            ),
+            onPressed: () {
+              Navigator.pushNamed(
+                context,
+                '/results',
+                arguments: query,
+              );
+            },
+          ),
+        ),
       ),
 
       // Drawer

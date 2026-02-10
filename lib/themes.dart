@@ -48,10 +48,15 @@ ThemeData lightTheme = ThemeData(
 
 // Dark-grey theme
 ThemeData darkTheme = ThemeData(
-  colorScheme: ColorScheme.dark(
-    primary: Colors.black26,
+  brightness: Brightness.dark,
+  scaffoldBackgroundColor: const Color(0xFF252525), // Lighter dark background
+  cardColor: const Color(0xFF383838), // Lighter card color
+  colorScheme: const ColorScheme.dark(
+    primary: Colors.blueAccent,
     secondary: Colors.white,
     tertiary: Colors.white12,
+    surface: Color(0xFF383838),
+    background: Color(0xFF252525),
   ),
   fontFamily: 'Noto',
 );

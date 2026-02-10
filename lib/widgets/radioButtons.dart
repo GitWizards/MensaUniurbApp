@@ -25,81 +25,104 @@ class _RadioButtonsState extends State<RadioButtons> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: <Widget>[
-        createRadioButton(
-          context,
-          widget.text1,
-          widget.value1,
-          active,
-        ),
-        createRadioButton(
-          context,
-          widget.text2,
-          widget.value2,
-          !active,
-        ),
-      ],
-      mainAxisAlignment: MainAxisAlignment.center,
-    );
-  }
+    double width = MediaQuery.of(context).size.width * 0.85;
+    double height = MediaQuery.of(context).size.height * 0.075;
 
-  Widget createRadioButton(
-    BuildContext context,
-    String text,
-    String value,
-    bool state,
-  ) {
-    return Container(
-      padding: EdgeInsets.only(left: 8, right: 8),
+    return Center(
       child: Container(
-        child: ElevatedButton(
-          child: Text(
-            text,
-            style: buttonStyle(state),
-          ),
-          style: ButtonStyle(
-            elevation: WidgetStateProperty.all(2),
-            shape: WidgetStateProperty.all<OutlinedBorder>(StadiumBorder()),
-            backgroundColor: WidgetStateProperty.resolveWith<Color>(
-              (Set<WidgetState> states) {
-                if (state) {
-                  return Theme.of(context).colorScheme.primary;
-                } else {
-                  return Theme.of(context)
-                      .colorScheme
-                      .primary
-                      .withOpacity(0.15);
-                }
-              },
+        width: width,
+        height: height,
+        decoration: BoxDecoration(
+          color: Theme.of(context).cardColor,
+          borderRadius: BorderRadius.circular(30.0),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black12,
+              blurRadius: 4,
+              offset: Offset(0, 2),
             ),
-          ),
-          onPressed: () => state ? null : toggleButton(),
+          ],
         ),
-        width: MediaQuery.of(context).size.width * 0.4,
-        height: MediaQuery.of(context).size.height * 0.08,
+        child: Stack(
+          children: [
+            AnimatedAlign(
+              alignment: active ? Alignment.centerLeft : Alignment.centerRight,
+              duration: Duration(milliseconds: 250),
+              curve: Curves.easeInOut,
+              child: Container(
+                width: width * 0.5,
+                height: height,
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.primary,
+                  borderRadius: BorderRadius.circular(30.0),
+                ),
+              ),
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: GestureDetector(
+                    onTap: () {
+                      if (!active) {
+                        setState(() {
+                          active = true;
+                          widget.callback(widget.value1);
+                        });
+                      }
+                    },
+                    behavior: HitTestBehavior.translucent,
+                    child: Center(
+                      child: Text(
+                        widget.text1,
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold,
+                          color: active
+                              ? Colors.white
+                              : Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium
+                                  ?.color
+                                  ?.withOpacity(0.6),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: GestureDetector(
+                    onTap: () {
+                      if (active) {
+                        setState(() {
+                          active = false;
+                          widget.callback(widget.value2);
+                        });
+                      }
+                    },
+                    behavior: HitTestBehavior.translucent,
+                    child: Center(
+                      child: Text(
+                        widget.text2,
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold,
+                          color: !active
+                              ? Colors.white
+                              : Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium
+                                  ?.color
+                                  ?.withOpacity(0.6),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
-  }
-
-  void toggleButton() {
-    setState(() {
-      active = !active;
-      active ? widget.callback(widget.value1) : widget.callback(widget.value2);
-    });
-  }
-
-  TextStyle buttonStyle(bool state) {
-    if (state) {
-      return TextStyle(
-        fontSize: MediaQuery.of(context).size.width * 0.07,
-        color: Theme.of(context).colorScheme.secondary,
-      );
-    } else {
-      return TextStyle(
-        fontSize: MediaQuery.of(context).size.width * 0.07,
-        color: Theme.of(context).colorScheme.tertiary,
-      );
-    }
   }
 }
